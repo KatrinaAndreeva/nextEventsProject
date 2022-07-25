@@ -5,6 +5,7 @@ import { Fragment } from 'react';
 import ResultsTitle from '../../components/events/results-title';
 import Button from '../../components/ui/button';
 import ErrorAlert from '../../components/ui/error-alert';
+import Head from 'next/head';
 
 function FilteredEventsPage(props) {
   const router = useRouter();
@@ -17,9 +18,20 @@ function FilteredEventsPage(props) {
   // const filteredYear = +filterData[0];
   // const filteredMonth = +filterData[1];
 
+  const pageHeadData = (
+    <Head>
+      <title>Filtered Events</title>
+      <meta
+        name="description"
+        content={`all events for ${props.date.month}/${props.date.year}`}
+      />
+    </Head>
+  );
+
   if (props.hasError) {
     return (
       <Fragment>
+        {pageHeadData}
         <ErrorAlert>
           <p>Invalid filter. Please make correct choice</p>
         </ErrorAlert>
@@ -35,6 +47,7 @@ function FilteredEventsPage(props) {
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <Fragment>
+        {pageHeadData}
         <ErrorAlert>
           <p>No events found for chosen date</p>
         </ErrorAlert>
@@ -49,6 +62,7 @@ function FilteredEventsPage(props) {
 
   return (
     <Fragment>
+      {pageHeadData}
       <ResultsTitle date={date} />
       <EventList items={filteredEvents} />
     </Fragment>
